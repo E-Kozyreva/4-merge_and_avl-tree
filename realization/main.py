@@ -3,8 +3,6 @@ from PyQt6.QtGui import QFont
 from PyQt6.QtCore import QSize, Qt
 import sys
 
-
-
 class MergeSort:
     def __init__(self, array, time):
         self.array = array
