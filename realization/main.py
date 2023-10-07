@@ -80,7 +80,8 @@ class MergeSort:
             MergeSort.merge4(arr, start, fq, midpoint, tq, end)
         
         return arr
-    
+
+
 class TreeSort:
     def __init__(self, array, time):
         self.array = array
@@ -129,6 +130,58 @@ class TreeSort:
         TreeSort.inorder(root, res)
         return res
 
+
+class Design:
+    def time_label(time):
+        time.setFixedSize(140, 30)
+        time.setStyleSheet("background-color: #ffffff; color: black; border-radius: 10px;")
+        time.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        time.move(110, -7)
+        return time
+
+
+    def name_app_label(name_app):
+        name_app.setFixedSize(352, 80)
+        name_app.move(4, 4)
+        name_app.setText("Sorting algorithms")
+        name_app.setFont(QFont("Arial", 25, QFont.Weight.Bold))
+        name_app.setStyleSheet("background-color: #262626; color: white; border-radius: 20px;")
+        name_app.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        name_app.lower()
+        return name_app
+
+
+    def end_app_label(end_app):
+        end_app.setFixedSize(352, 80)
+        end_app.move(4, 516)
+        end_app.setStyleSheet("background-color: #262626; border-radius: 20px;")
+        return end_app
+    
+
+    def button_widget(button_widget):
+        button_widget.setFixedSize(352, 520)
+        button_widget.move(4, 50)
+        button_widget.setStyleSheet("background-color: #353535;")
+        button_widget.lower()
+        return button_widget
+    
+
+    def black_button(button):
+        button.setGeometry(150, 100, 200, 50)
+        button.setFixedSize(240, 50)
+        button.setFont(QFont("Arial", 20))
+        button.setStyleSheet("background-color: #262626; color: white; border-radius: 10px;")
+        return button
+    
+
+    def white_button(button):
+        button.setGeometry(150, 100, 200, 50)
+        button.setFixedSize(240, 50)
+        button.setFont(QFont("Arial", 20))
+        button.setStyleSheet("background-color: #ffffff; color: black; border-radius: 10px;")
+        return button
+        
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -143,105 +196,101 @@ class MainWindow(QMainWindow):
         
         # time widget
         self.time = QLabel(self)
-        self.time.setFixedSize(140, 30)
-        self.time.setStyleSheet("background-color: #ffffff; color: black; border-radius: 10px;")
-        self.time.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.time.move(110, -7)
+        self.time = Design.time_label(self.time)
 
         # name app widget
         self.name_app = QLabel(self)
-        self.name_app.setFixedSize(352, 80)
-        self.name_app.move(4, 4)
-        self.name_app.setText("Sorting algorithms")
-        self.name_app.setFont(QFont("Arial", 25, QFont.Weight.Bold))
-        self.name_app.setStyleSheet("background-color: #262626; color: white; border-radius: 20px;")
-        self.name_app.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.name_app.lower()
+        self.name_app = Design.name_app_label(self.name_app)
         
         # end app widget
         self.end_app = QLabel(self)
-        self.end_app.setFixedSize(352, 80)
-        self.end_app.move(4, 516)
-        self.end_app.setStyleSheet("background-color: #262626; border-radius: 20px;")
+        self.end_app = Design.end_app_label(self.end_app)
         
         # button widget
         self.button_widget = QWidget(self)
         self.button_layout = QVBoxLayout(self.button_widget)
-        self.button_widget.setFixedSize(352, 520)
-        self.button_widget.move(4, 50)
-        self.button_widget.setStyleSheet("background-color: #353535;")
         self.button_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.button_widget.lower()
+        self.button_widget = Design.button_widget(self.button_widget)
         
         # merge sort button
         self.merge_sort = QPushButton("Merge sort")
-        self.merge_sort.setGeometry(150, 100, 200, 50)
-        self.merge_sort.setFixedSize(200, 40)
-        self.merge_sort.setFont(QFont("Arial", 20))
-        self.merge_sort.setStyleSheet("background-color: #262626; color: white; border-radius: 10px;")
+        self.merge_sort = Design.black_button(self.merge_sort)
         self.button_layout.addWidget(self.merge_sort)
         self.merge_sort.clicked.connect(self.merge_sort_clicked)
         
         # tree sort button
         self.tree_sort = QPushButton("Tree sort")
-        self.tree_sort.setGeometry(150, 200, 200, 100)
-        self.tree_sort.setFixedSize(200, 40)
-        self.tree_sort.setFont(QFont("Arial", 20))
-        self.tree_sort.setStyleSheet("background-color: #262626; color: white; border-radius: 10px;")
+        self.tree_sort = Design.black_button(self.tree_sort)
         self.button_layout.addWidget(self.tree_sort)
         self.tree_sort.clicked.connect(self.tree_sort_clicked)
         
         # exit button
-        self.exit = QPushButton("Exit", self)
-        self.exit.setGeometry(150, 600, 200, 50)
-        self.exit.setFixedSize(200, 40)
-        self.exit.setFont(QFont("Arial", 20))
-        self.exit.setStyleSheet("background-color: #ffffff; color: black; border-radius: 10px;")
+        self.exit = QPushButton("Exit")
+        self.exit = Design.white_button(self.exit)
         self.button_layout.addWidget(self.exit)
         self.exit.clicked.connect(self.exit_clicked)
     
-    def merge_sort_clicked(self):
-        self.merge_sort.hide()
-        self.tree_sort.hide()
-        self.exit.hide()
+    def merge_sort_clicked(self, hide_buttons: list):
+        for button in hide_buttons:
+            button.hide()
         self.name_app.setText("Merge sort")
 
         # 2-way merge sort button
         self.t_way = QPushButton("2-way", self)
-        self.t_way.setGeometry(150, 100, 200, 50)
-        self.t_way.setFixedSize(200, 40)
-        self.t_way.setFont(QFont("Arial", 20))
-        self.t_way.setStyleSheet("background-color: #262626; color: white; border-radius: 10px;")
+        self.t_way = Design.black_button(self.t_way)
         self.button_layout.addWidget(self.t_way)
         self.t_way.show()
+        self.t_way.clicked.connect(self.t_way_clicked)
 
         # 4-way merge sort button
         self.f_way = QPushButton("4-way", self)
-        self.f_way.setGeometry(150, 100, 200, 50) 
-        self.f_way.setFixedSize(200, 40)
-        self.f_way.setFont(QFont("Arial", 20))
-        self.f_way.setStyleSheet("background-color: #262626; color: white; border-radius: 10px;")
+        self.f_way = Design.black_button(self.f_way)
         self.button_layout.addWidget(self.f_way)
         self.f_way.show()
 
         # 8-way merge sort button
         self.e_way = QPushButton("8-way", self)
-        self.e_way.setGeometry(150, 200, 200, 50)
-        self.e_way.setFixedSize(200, 40)
-        self.e_way.setFont(QFont("Arial", 20))
-        self.e_way.setStyleSheet("background-color: #262626; color: white; border-radius: 10px;")
+        self.e_way = Design.black_button(self.e_way)
         self.button_layout.addWidget(self.e_way)
         self.e_way.show()
         
         # back button
         self.back = QPushButton("Back", self)
-        self.back.setGeometry(150, 600, 200, 50)
-        self.back.setFixedSize(200, 40)
-        self.back.setFont(QFont("Arial", 20))
-        self.back.setStyleSheet("background-color: #ffffff; color: black; border-radius: 10px;")
+        self.back = Design.white_button(self.back)
         self.button_layout.addWidget(self.back)
         self.back.show()
-        self.back.clicked.connect(self.back_clicked_merge_sort)
+        self.back.clicked.connect(self.back_clicked)
+
+    def t_way_clicked(self, hide_buttons: list):
+        self.t_way.hide()
+        self.f_way.hide()
+        self.e_way.hide()
+        self.back.hide()
+        self.name_app.setText("2-way merge sort")
+
+        # button enter array
+        self.enter_array = QPushButton("Enter array", self)
+        self.enter_array = Design.black_button(self.enter_array)
+        self.button_layout.addWidget(self.enter_array)
+        self.enter_array.show()
+
+        # button random array
+        self.random_array = QPushButton("Random array", self)
+        self.random_array = Design.black_button(self.random_array)
+        self.button_layout.addWidget(self.random_array)
+        self.random_array.show()
+
+        # add array from file 
+        self.add_array_from_file = QPushButton("Add array from file", self)
+        self.add_array_from_file = Design.black_button(self.add_array_from_file)
+        self.button_layout.addWidget(self.add_array_from_file)
+        self.add_array_from_file.show()
+
+        # back button
+        self.back = QPushButton("Back", self)
+        self.back = Design.white_button(self.back)
+        self.button_layout.addWidget(self.back)
+        self.back.show()
         
     def tree_sort_clicked(self):
         self.merge_sort.hide()
@@ -251,35 +300,18 @@ class MainWindow(QMainWindow):
 
         # tree sort button
         self.avl_sort = QPushButton("Avl sort")
-        self.avl_sort.setGeometry(150, 100, 200, 50)
-        self.avl_sort.setFixedSize(200, 40)
-        self.avl_sort.setFont(QFont("Arial", 20))
-        self.avl_sort.setStyleSheet("background-color: #262626; color: white; border-radius: 10px;")
+        self.avl_sort = Design.black_button(self.avl_sort)
         self.button_layout.addWidget(self.avl_sort)
         self.avl_sort.show()
 
         # back button
         self.back = QPushButton("Back", self)
-        self.back.setGeometry(150, 600, 200, 50)
-        self.back.setFixedSize(200, 40)
-        self.back.setFont(QFont("Arial", 20))
-        self.back.setStyleSheet("background-color: #ffffff; color: black; border-radius: 10px;")
+        self.back = Design.white_button(self.back)
         self.button_layout.addWidget(self.back)
         self.back.show()
         self.back.clicked.connect(self.back_clicked_tree_sort)
-        
-    def back_clicked_merge_sort(self):
-        self.t_way.hide()
-        self.f_way.hide()
-        self.e_way.hide()
-        self.back.hide()
 
-        self.merge_sort.show()
-        self.tree_sort.show()
-        self.exit.show()
-        self.name_app.setText("Sorting algorithms")
-
-    def back_clicked_tree_sort(self):
+    def back_clicked(self, hide_buttons, show_buttons):
         self.avl_sort.hide()
         self.back.hide()
 
@@ -296,5 +328,4 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
-
     app.exec()
