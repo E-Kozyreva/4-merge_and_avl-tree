@@ -3,11 +3,12 @@ from PyQt6.QtGui import QFont
 from PyQt6.QtCore import QSize, Qt
 import sys
 
+from buttons import Buttons
 from design import Design
 import funcbuttons
 
 
-class MainWindow(QMainWindow):
+class MainWindow(QMainWindow, Buttons):
     def __init__(self):
         super().__init__()
         
@@ -38,9 +39,7 @@ class MainWindow(QMainWindow):
         self.button_widget = Design.button_widget(self.button_widget)
         
         # merge sort button
-        self.merge_sort = QPushButton("Merge sort")
-        self.merge_sort = Design.black_button(self.merge_sort)
-        self.button_layout.addWidget(self.merge_sort)
+        self.button_layout.addWidget(Buttons.)
         self.merge_sort.clicked.connect(self.merge_sort_clicked)
         
         # tree sort button
