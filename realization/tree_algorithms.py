@@ -14,12 +14,12 @@ class TreeSort:
             if self.val:
                 if val < self.val:
                     if self.left is None:
-                        self.left = Node(val)
+                        self.left = self.Node(val)
                     else:
                         self.left.insert(val)
                 elif val > self.val:
                     if self.right is None:
-                        self.right = Node(val)
+                        self.right = self.Node(val)
                     else:
                         self.right.insert(val)
             else:

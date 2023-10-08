@@ -1,7 +1,7 @@
 class MergeSort:
-    def __init__(self, array, time):
+    def __init__(self, array):
         self.array = array
-        self.time = time
+        self.time = 0
 
     def merge2(arr):
         if len(arr) > 1:                              
