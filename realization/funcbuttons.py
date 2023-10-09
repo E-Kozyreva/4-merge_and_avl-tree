@@ -55,6 +55,19 @@ class ShowButtons:
         avl_tree_button.show()
         back_button.show()
         return avl_tree_button, back_button
+    
+
+    def generate_array(back_button):
+        back_button.show()
+        return back_button
+    
+
+    def generate_array_back(enter_array_button, random_array_button, add_array_from_file_button, back_button):
+        enter_array_button.show()
+        random_array_button.show()
+        add_array_from_file_button.show()
+        back_button.show()
+        return enter_array_button, random_array_button, add_array_from_file_button, back_button
 
 
 class HideButtons:
@@ -114,3 +127,16 @@ class HideButtons:
         add_array_from_file_button.hide()
         back_button.hide()
         return enter_array_button, random_array_button, add_array_from_file_button, back_button
+    
+
+    def generate_array(enter_array_button, random_array_button, add_array_from_file_button, back_button):
+        enter_array_button.hide()
+        random_array_button.hide()
+        add_array_from_file_button.hide()
+        back_button.hide()
+        return enter_array_button, random_array_button, add_array_from_file_button, back_button
+    
+
+    def generate_array_back(back_button):
+        back_button.hide()
+        return back_button

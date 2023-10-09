@@ -1,47 +1,45 @@
-class TreeSort:
-    def __init__(self, array, time):
-        self.array = array
-        self.time = time
+# класс для хранения узла бинарного дерева
+class Node:
+    def __init__(self, elem):
+        self.elem = elem
+        self.left, self.right = None, None
 
-    class Node:
-        # BST data structure
-        def __init__(self, val):
-            self.val = val
-            self.left = None
-            self.right = None
+# Ввод
+#     tree - бинарное дерево
+#     elem - элемент, который нужно добавить в бинарное дерево
+# Вывод
+#     обновленное дерево
+def insert_elem(tree, elem):
+    if tree is None:
+        tree = Node(elem)
+        return tree
+    if elem <= tree.elem:
+        tree.left = insert_elem(tree.left, elem)
+    elif elem > tree.elem:
+        tree.right = insert_elem(tree.right, elem)
+    
+    return tree
+# Ввод
+#     tree - бинарное дерево
+#     arr - массив, в который записывается отсортированный массив
+#     next_index - индекс следующего элемента
+# Вывод
+#     индекс следующего элемента
 
-        def insert(self, val):
-            if self.val:
-                if val < self.val:
-                    if self.left is None:
-                        self.left = self.Node(val)
-                    else:
-                        self.left.insert(val)
-                elif val > self.val:
-                    if self.right is None:
-                        self.right = self.Node(val)
-                    else:
-                        self.right.insert(val)
-            else:
-                self.val = val
-
-
-    def inorder(root, res):
-        # Recursive traversal
-        if root:
-            TreeSort.inorder(root.left, res)
-            res.append(root.val)
-            TreeSort.norder(root.right, res)
-
-
-    def tree_sort(arr):
-        # Build BST
-        if len(arr) == 0:
-            return arr
-        root = TreeSort.Node(arr[0])
-        for i in range(1, len(arr)):
-            root.insert(arr[i])
-        # Traverse BST in order.
-        res = []
-        TreeSort.inorder(root, res)
-        return res
+def tree_traversal(tree, arr, next_index):
+    if tree is not None:
+        next_index = tree_traversal(tree.left, arr, next_index)
+        arr[next_index] = tree.elem
+        next_index += 1
+        next_index = tree_traversal(tree.right, arr, next_index)
+        
+    return next_index
+# Ввод
+#     arr - массив для сортировки
+# Вывод
+#     -
+def tree_sort(arr):
+    tree = None
+    for elem in arr:
+        tree = insert_elem(tree, elem)
+    tree_traversal(tree, arr, 0)

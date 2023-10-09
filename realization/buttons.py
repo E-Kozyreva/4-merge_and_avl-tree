@@ -52,6 +52,17 @@ class Buttons:
         random_array = Design.black_button(random_array)
         return random_array
     
+
+    def randon_array_button_txt(array):
+        text_array = ''
+        for i in range(len(array)):
+            text_array += f"{array[i]} "
+            if i % 2 == 0:
+                text_array += "\n"
+        txt_button = QPushButton(f"{text_array}")
+        txt_button = Design.array_widget_txt(txt_button)
+        return txt_button
+        
     
     def add_array_from_file_button():
         add_array_from_file = QPushButton("Add array from file")

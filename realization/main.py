@@ -6,6 +6,10 @@ from buttons import Buttons
 from design import Design
 import funcbuttons as func
 
+import get_data as data
+import merge_algorithms as merge
+import tree_algorithms as tree
+
 
 class MainWindow(QMainWindow, Buttons):
     def __init__(self):
@@ -86,14 +90,17 @@ class MainWindow(QMainWindow, Buttons):
         # button enter array
         self.enter_array_button = Buttons.enter_array_button()
         self.button_layout.addWidget(self.enter_array_button)
+        self.enter_array_button.clicked.connect(self.enter_array_clicked)
 
         # button random array
         self.random_array_button = Buttons.random_array_button()
         self.button_layout.addWidget(self.random_array_button)
+        self.random_array_button.clicked.connect(self.random_array_clicked)
 
         # add array from file 
         self.add_array_from_file_button = Buttons.add_array_from_file_button()
         self.button_layout.addWidget(self.add_array_from_file_button)
+        self.add_array_from_file_button.clicked.connect(self.add_array_from_file_clicked)
 
         # back button
         self.back_button_t = Buttons.back_button()
@@ -110,14 +117,17 @@ class MainWindow(QMainWindow, Buttons):
         # button enter array
         self.enter_array_button = Buttons.enter_array_button()
         self.button_layout.addWidget(self.enter_array_button)
+        self.enter_array_button.clicked.connect(self.enter_array_clicked)
 
         # button random array
         self.random_array_button = Buttons.random_array_button()
         self.button_layout.addWidget(self.random_array_button)
+        self.random_array_button.clicked.connect(self.random_array_clicked)
 
         # add array from file 
         self.add_array_from_file_button = Buttons.add_array_from_file_button()
         self.button_layout.addWidget(self.add_array_from_file_button)
+        self.add_array_from_file_button.clicked.connect(self.add_array_from_file_clicked)
 
         # back button
         self.back_button_f = Buttons.back_button()
@@ -134,14 +144,17 @@ class MainWindow(QMainWindow, Buttons):
         # button enter array
         self.enter_array_button = Buttons.enter_array_button()
         self.button_layout.addWidget(self.enter_array_button)
+        self.enter_array_button.clicked.connect(self.enter_array_clicked)
 
         # button random array
         self.random_array_button = Buttons.random_array_button()
         self.button_layout.addWidget(self.random_array_button)
+        self.random_array_button.clicked.connect(self.random_array_clicked)
 
         # add array from file 
         self.add_array_from_file_button = Buttons.add_array_from_file_button()
         self.button_layout.addWidget(self.add_array_from_file_button)
+        self.add_array_from_file_button.clicked.connect(self.add_array_from_file_clicked)
 
         # back button
         self.back_button_e = Buttons.back_button()
@@ -175,14 +188,17 @@ class MainWindow(QMainWindow, Buttons):
         # button enter array
         self.enter_array_button = Buttons.enter_array_button()
         self.button_layout.addWidget(self.enter_array_button)
+        self.enter_array_button.clicked.connect(self.enter_array_clicked)
         
         # button random array
         self.random_array_button = Buttons.random_array_button()
         self.button_layout.addWidget(self.random_array_button)
+        self.random_array_button.clicked.connect(self.random_array_clicked)
         
         # add array from file
         self.add_array_from_file_button = Buttons.add_array_from_file_button()
         self.button_layout.addWidget(self.add_array_from_file_button)
+        self.add_array_from_file_button.clicked.connect(self.add_array_from_file_clicked)
         
         # back button
         self.back_button_avl = Buttons.back_button()
@@ -192,7 +208,47 @@ class MainWindow(QMainWindow, Buttons):
         self.name_app.setText("AVL tree sort")
         func.HideButtons.avl_tree(self.avl_tree_button, self.back_button)
         func.ShowButtons.avl_tree(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_avl)
-          
+    
+    def enter_array_clicked(self):
+        pass
+
+    def random_array_clicked(self):
+        array = data.GenerateData(10).generate()
+        print("array:", *array)
+              
+        if self.index == 2:
+            recursive_sorter = merge.RecursiveMergeSort(array)
+            recursive_sorted = recursive_sorter.sort()
+            print("rerecursive sorted:", *recursive_sorted)
+
+            iterative_sorter = merge.IterativeMergeSort(array)
+            iterative_sorted = iterative_sorter.sort()
+            print("iterative sorted:", *iterative_sorted)
+
+            # добаляем поле для вывода массива в виджет button layout
+            self.array_widget = Buttons.randon_array_button_txt(array)
+            self.button_layout.addWidget(self.array_widget)
+
+
+            self.index = 6
+            back_button_enter = Buttons.back_button()
+            self.button_layout.addWidget(back_button_enter)
+            back_button_enter.clicked.connect(self.back_clicked)
+
+            func.HideButtons.generate_array(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_t)
+            func.ShowButtons.generate_array(back_button_enter)
+
+        elif self.index == 3:
+            pass
+        elif self.index == 4:
+            pass
+        elif self.index == 5:
+            tree.tree_sort(array)
+            print("tree sorted:", *array)
+
+    def add_array_from_file_clicked(self):
+        pass
+
     def back_clicked(self):
         if self.index == 0: # merge sort
             self.name_app.setText("Sorting algorithms")
