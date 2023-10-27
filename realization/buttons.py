@@ -4,6 +4,7 @@ from PyQt6.QtCore import QSize, Qt
 
 from design import Design
 
+
 class Buttons:
     def merge_sort_button():
         merge_sort = QPushButton("Merge sort")
@@ -53,12 +54,21 @@ class Buttons:
         return random_array
     
 
-    def randon_array_button_txt(array):
-        text_array = ''
-        for i in range(len(array)):
-            text_array += f"{array[i]} "
-            if i % 2 == 0:
+    def randon_array_button_txt(garray: list, sarray: list):
+        text_array = 'Generated array:\n'
+
+        for i in range(len(garray)):
+            text_array += f"{garray[i]}, "
+            if i % 3 == 0:
                 text_array += "\n"
+                
+        text_array += "\nSorted array:\n"
+        
+        for i in range(len(sarray)):
+            text_array += f"{sarray[i]}, "
+            if i % 3 == 0:
+                text_array += "\n"
+
         txt_button = QPushButton(f"{text_array}")
         txt_button = Design.array_widget_txt(txt_button)
         return txt_button

@@ -137,6 +137,7 @@ class HideButtons:
         return enter_array_button, random_array_button, add_array_from_file_button, back_button
     
 
-    def generate_array_back(back_button):
+    def generate_array_back(back_button, array_txt_button):
         back_button.hide()
-        return back_button
+        array_txt_button.hide()
+        return back_button, array_txt_button
