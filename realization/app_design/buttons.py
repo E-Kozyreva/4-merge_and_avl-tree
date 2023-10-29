@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import *
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import QSize, Qt
 
-from design import Design
+from app_design.buttons_design import Design
 
 
 class Buttons:
@@ -54,22 +54,13 @@ class Buttons:
         return random_array
     
 
-    def randon_array_button_txt(garray: list, sarray: list):
-        text_array = 'Generated array:\n'
-
-        for i in range(len(garray)):
-            text_array += f"{garray[i]}, "
-            if i % 3 == 0:
-                text_array += "\n"
-                
-        text_array += "\nSorted array:\n"
+    def randon_array_button_txt(len_garray: int, time: list, text: list):
+        if len(time) == 2 and len(text) == 2:
+            text_button =  f"Length array: {len_garray}\n{text[0]} {round(time[0], 4)}s\n{text[1]} {round(time[1], 4)}s"
+        elif len(time) == 1 and len(text) == 1:
+            text_button = f"Length array: {len_garray}\n{text[0]} {round(time[0], 4)}s"
         
-        for i in range(len(sarray)):
-            text_array += f"{sarray[i]}, "
-            if i % 3 == 0:
-                text_array += "\n"
-
-        txt_button = QPushButton(f"{text_array}")
+        txt_button = QPushButton(f"{text_button}")
         txt_button = Design.array_widget_txt(txt_button)
         return txt_button
         

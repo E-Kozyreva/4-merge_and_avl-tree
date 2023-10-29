@@ -60,3 +60,20 @@ class IterativeMergeSort(MergeSort2):
             queue.append(merged)
         return queue[0]
     
+
+class MergeSort4(MergeSort2):
+    def sort(self) -> list:
+        if len(self.array) <= 1:
+            return self.array
+
+        queue = []
+
+        for item in self.array:
+            queue.append([item])
+
+        while len(queue) > 1:
+            first = queue.pop(0)
+            second = queue.pop(0)
+            merged = self._merge(first, second)
+            queue.append(merged)
+        return queue[0]

@@ -1,14 +1,15 @@
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import Qt
 import sys
+import time
 
-from buttons import Buttons
-from design import Design
-import funcbuttons as func
+from app_design.buttons import Buttons
+from app_design.buttons_design import Design
+from app_design.showhide_buttons import ShowButtons, HideButtons
 
-import get_data as data
-import merge_algorithms as merge
-import tree_algorithms as tree
+import database.get_data as data
+import algorithms.merge_algorithms as merge_algorithms
+import algorithms.tree_algorithm as tree
 
 
 class MainWindow(QMainWindow, Buttons):
@@ -82,8 +83,8 @@ class MainWindow(QMainWindow, Buttons):
         self.back_button.clicked.connect(self.back_clicked)
         
         self.name_app.setText("Merge sort")
-        func.HideButtons.merge_algo(self.merge_button, self.tree_button, self.exit_button)
-        func.ShowButtons.merge_algo(self.t_way_button, self.f_way_button, self.e_way_button, self.back_button)
+        HideButtons.merge_algo(self.merge_button, self.tree_button, self.exit_button)
+        ShowButtons.merge_algo(self.t_way_button, self.f_way_button, self.e_way_button, self.back_button)
 
 
     def t_way_clicked(self):
@@ -110,8 +111,8 @@ class MainWindow(QMainWindow, Buttons):
         self.back_button_t.clicked.connect(self.back_clicked)
         
         self.name_app.setText("2-way merge sort")
-        func.HideButtons.tfe_way(self.t_way_button, self.f_way_button, self.e_way_button, self.back_button)
-        func.ShowButtons.tfe_way(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_t)
+        HideButtons.tfe_way(self.t_way_button, self.f_way_button, self.e_way_button, self.back_button)
+        ShowButtons.tfe_way(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_t)
 
 
     def f_way_clicked(self):
@@ -138,8 +139,8 @@ class MainWindow(QMainWindow, Buttons):
         self.back_button_f.clicked.connect(self.back_clicked)
         
         self.name_app.setText("4-way merge sort")
-        func.HideButtons.tfe_way(self.t_way_button, self.f_way_button, self.e_way_button, self.back_button)
-        func.ShowButtons.tfe_way(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_f)
+        HideButtons.tfe_way(self.t_way_button, self.f_way_button, self.e_way_button, self.back_button)
+        ShowButtons.tfe_way(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_f)
 
 
     def e_way_clicked(self):
@@ -166,8 +167,8 @@ class MainWindow(QMainWindow, Buttons):
         self.back_button_e.clicked.connect(self.back_clicked)
         
         self.name_app.setText("8-way merge sort")
-        func.HideButtons.tfe_way(self.t_way_button, self.f_way_button, self.e_way_button, self.back_button)
-        func.ShowButtons.tfe_way(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_e)
+        HideButtons.tfe_way(self.t_way_button, self.f_way_button, self.e_way_button, self.back_button)
+        ShowButtons.tfe_way(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_e)
 
 
     def tree_sort_clicked(self):
@@ -184,8 +185,8 @@ class MainWindow(QMainWindow, Buttons):
         self.back_button.clicked.connect(self.back_clicked)
         
         self.name_app.setText("Tree sort")
-        func.HideButtons.tree_algo(self.merge_button, self.tree_button, self.exit_button)
-        func.ShowButtons.tree_algo(self.avl_tree_button, self.back_button)
+        HideButtons.tree_algo(self.merge_button, self.tree_button, self.exit_button)
+        ShowButtons.tree_algo(self.avl_tree_button, self.back_button)
 
 
     def avl_clicked(self):
@@ -212,8 +213,8 @@ class MainWindow(QMainWindow, Buttons):
         self.back_button_avl.clicked.connect(self.back_clicked)
         
         self.name_app.setText("AVL tree sort")
-        func.HideButtons.avl_tree(self.avl_tree_button, self.back_button)
-        func.ShowButtons.avl_tree(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_avl)
+        HideButtons.avl_tree(self.avl_tree_button, self.back_button)
+        ShowButtons.avl_tree(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_avl)
     
 
     def enter_array_clicked(self):
@@ -221,19 +222,26 @@ class MainWindow(QMainWindow, Buttons):
 
 
     def random_array_clicked(self):
-        garray = data.GenerateData(10).generate()
-        print("array:", *garray)
+        garray = data.GenerateData(10000).generate()
+        len_garray = len(garray)
               
-        if self.index == 2: # 2-way merge sort
-            recursive_sorter = merge.RecursiveMergeSort(garray)
+        # 2-way merge sort
+        if self.index == 2:
+            recursive_sorter = merge_algorithms.RecursiveMergeSort(garray)
+            rt_start = time.time()
             recursive_sorted = recursive_sorter.sort()
-            print("rerecursive sorted:", *recursive_sorted)
+            rt_end = time.time()
 
-            iterative_sorter = merge.IterativeMergeSort(garray)
+            iterative_sorter = merge_algorithms.IterativeMergeSort(garray)
+            it_start = time.time()
             iterative_sorted = iterative_sorter.sort()
-            print("iterative sorted:", *iterative_sorted)
+            it_end = time.time()
 
-            self.array_widget = Buttons.randon_array_button_txt(garray, recursive_sorted)
+            with open("output/random_merge2.txt", "w") as file:
+                text = ["Generated array:", "Length array:", "Time recursive:", "Time iterative:"]
+                file.write(f"""{text[0]} {garray}\n\n{text[1]} {len_garray}\n{text[2]} {rt_end - rt_start}\n{text[3]} {it_end - it_start}\n""")
+
+            self.array_widget = Buttons.randon_array_button_txt(len_garray, [rt_end - rt_start, it_end - it_start], ["Time recursive:", "Time iterative:"])
             self.button_layout.addWidget(self.array_widget)
 
             self.index = 6
@@ -241,19 +249,25 @@ class MainWindow(QMainWindow, Buttons):
             self.button_layout.addWidget(self.back_button_random)
             self.back_button_random.clicked.connect(self.back_clicked)
 
-            func.HideButtons.generate_array(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_t)
-            func.ShowButtons.generate_array(self.back_button_random)
+            HideButtons.generate_array(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_t)
+            ShowButtons.generate_array(self.back_button_random)
 
         elif self.index == 3:
             pass
         elif self.index == 4:
             pass
-        elif self.index == 5: # AVL tree sort
+        # AVL tree sort
+        elif self.index == 5: 
             sarray = [n for n in garray]
+            avl_start = time.time()
             tree.tree_sort(sarray)
-            print("tree sorted:", *sarray)
+            avl_end = time.time()
 
-            self.array_widget = Buttons.randon_array_button_txt(garray, sarray)
+            with open("output/random_avl.txt", "w") as file:
+                text = ["Generated array:", "Length array:", "Time:"]
+                file.write(f"""{text[0]} {garray}\n\n{text[1]} {len_garray}\n{text[2]} {avl_end - avl_start}\n""")
+
+            self.array_widget = Buttons.randon_array_button_txt(len_garray, [avl_end - avl_start], ["Time:"])
             self.button_layout.addWidget(self.array_widget)
 
             self.index = 9
@@ -261,8 +275,8 @@ class MainWindow(QMainWindow, Buttons):
             self.button_layout.addWidget(self.back_button_random)
             self.back_button_random.clicked.connect(self.back_clicked)
 
-            func.HideButtons.generate_array(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_avl)
-            func.ShowButtons.generate_array(self.back_button_random)
+            HideButtons.generate_array(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_avl)
+            ShowButtons.generate_array(self.back_button_random)
             
 
     def add_array_from_file_clicked(self):
@@ -270,48 +284,56 @@ class MainWindow(QMainWindow, Buttons):
 
 
     def back_clicked(self):
-        if self.index == 0: # merge sort
+        # merge sort
+        if self.index == 0: 
             self.name_app.setText("Sorting algorithms")
-            func.ShowButtons.merge_algo_back(self.merge_button, self.tree_button, self.exit_button), 
-            func.HideButtons.merge_algo_back(self.t_way_button, self.f_way_button, self.e_way_button, self.back_button)
-        elif self.index == 1: # tree sort
+            ShowButtons.merge_algo_back(self.merge_button, self.tree_button, self.exit_button), 
+            HideButtons.merge_algo_back(self.t_way_button, self.f_way_button, self.e_way_button, self.back_button)
+        # tree sort
+        elif self.index == 1: 
             self.name_app.setText("Sorting algorithms")
-            func.ShowButtons.tree_algo_back(self.merge_button, self.tree_button, self.exit_button)
-            func.HideButtons.tree_algo_back(self.avl_tree_button, self.back_button)
-        elif self.index == 2: # 2-way merge sort
+            ShowButtons.tree_algo_back(self.merge_button, self.tree_button, self.exit_button)
+            HideButtons.tree_algo_back(self.avl_tree_button, self.back_button)
+        # 2-way merge sort
+        elif self.index == 2: 
             self.index = 0
             self.name_app.setText("Merge sort")
-            func.ShowButtons.tfe_way_back(self.t_way_button, self.f_way_button, self.e_way_button, self.back_button)
-            func.HideButtons.tfe_way_back(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_t)
-        elif self.index == 3: # 4-way merge sort
+            ShowButtons.tfe_way_back(self.t_way_button, self.f_way_button, self.e_way_button, self.back_button)
+            HideButtons.tfe_way_back(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_t)
+        # 4-way merge sort
+        elif self.index == 3: 
             self.index = 0
             self.name_app.setText("Merge sort")
-            func.ShowButtons.tfe_way_back(self.t_way_button, self.f_way_button, self.e_way_button, self.back_button)
-            func.HideButtons.tfe_way_back(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_f)
-        elif self.index == 4: # 8-way merge sort
+            ShowButtons.tfe_way_back(self.t_way_button, self.f_way_button, self.e_way_button, self.back_button)
+            HideButtons.tfe_way_back(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_f)
+        # 8-way merge sort
+        elif self.index == 4: 
             self.index = 0
             self.name_app.setText("Merge sort")
-            func.ShowButtons.tfe_way_back(self.t_way_button, self.f_way_button, self.e_way_button, self.back_button)
-            func.HideButtons.tfe_way_back(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_e)
-        elif self.index == 5: # AVL tree sort
+            ShowButtons.tfe_way_back(self.t_way_button, self.f_way_button, self.e_way_button, self.back_button)
+            HideButtons.tfe_way_back(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_e)
+        # AVL tree sort
+        elif self.index == 5: 
             self.index = 1
             self.name_app.setText("Tree sort")
-            func.ShowButtons.avl_tree_back(self.avl_tree_button, self.back_button)
-            func.HideButtons.avl_tree_back(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_avl)
-        elif self.index == 6: # back from 2-way merge sort
+            ShowButtons.avl_tree_back(self.avl_tree_button, self.back_button)
+            HideButtons.avl_tree_back(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_avl)
+        # back from 2-way merge sort
+        elif self.index == 6: 
             self.index = 2
             self.name_app.setText("2-way merge sort")
-            func.ShowButtons.generate_array_back(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_t)
-            func.HideButtons.generate_array_back(self.back_button_random, self.array_widget)
+            ShowButtons.generate_array_back(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_t)
+            HideButtons.generate_array_back(self.back_button_random, self.array_widget)
         elif self.index == 7:
             pass
         elif self.index == 8:
             pass
-        elif self.index == 9: # back from AVL tree sort
+        # back from AVL tree sort
+        elif self.index == 9: 
             self.index = 5
             self.name_app.setText("AVL tree sort")
-            func.ShowButtons.generate_array_back(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_avl)
-            func.HideButtons.generate_array_back(self.back_button_random, self.array_widget)    
+            ShowButtons.generate_array_back(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_avl)
+            HideButtons.generate_array_back(self.back_button_random, self.array_widget)    
 
 
     def exit_clicked(self):
