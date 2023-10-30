@@ -2,7 +2,8 @@ from PyQt6.QtWidgets import *
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import QSize, Qt
 
-from design import Design
+from app_design.buttons_design import Design
+
 
 class Buttons:
     def merge_sort_button():
@@ -41,17 +42,18 @@ class Buttons:
         return avl_tree
     
     
-    def enter_array_button():
-        enter_array = QPushButton("Enter array")
-        enter_array = Design.black_button(enter_array)
-        return enter_array
-    
-    
     def random_array_button():
         random_array = QPushButton("Random array")
         random_array = Design.black_button(random_array)
         return random_array
     
+
+    def randon_array_button_txt(len_garray: int, time: float, text: str):
+        text_button = f"Length array: {len_garray}\n{text} {round(time, 4)}s"
+        txt_button = QPushButton(f"{text_button}")
+        txt_button = Design.array_widget_txt(txt_button)
+        return txt_button
+        
     
     def add_array_from_file_button():
         add_array_from_file = QPushButton("Add array from file")

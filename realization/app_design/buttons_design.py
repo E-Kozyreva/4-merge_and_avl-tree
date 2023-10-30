@@ -53,3 +53,9 @@ class Design:
         button.setStyleSheet("background-color: #ffffff; color: black; border-radius: 10px;")
         return button
    
+
+    def array_widget_txt(button):
+        button.setFixedSize(240, 80)
+        button.setFont(QFont("Arial", 15))
+        button.setStyleSheet("background-color: #262626; color: white; border-radius: 10px;")
+        return button
