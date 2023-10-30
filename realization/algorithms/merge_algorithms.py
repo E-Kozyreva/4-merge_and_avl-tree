@@ -1,79 +1,39 @@
-from abc import ABC, abstractmethod
+class KMergeSort:
+    def __init__(self, k):
+        self.k = k
 
 
-class MergeSort2(ABC):
-    def __init__(self, array: list) -> None:
-        self.array = array
+    def k_merge_sort(self, arr, k=None):
+        if len(arr) <= 1:
+            return arr
+        else:
+            n = len(arr)
+            chunk_size = n // self.k if n // self.k > 0 else 1
+            chunks = [arr[i:i+chunk_size] for i in range(0, n, chunk_size)]
+            sorted_chunks = [self.k_merge_sort(chunk, self.k) for chunk in chunks]
+            return self.merge(sorted_chunks)
 
-    @abstractmethod
-    def sort(self) -> list:
-        pass
 
-    def _merge(self, left: list, right: list) -> list:
-        merged = []
-        left_index, right_index = 0, 0
+    def merge(self, sorted_chunks):
+        if len(sorted_chunks) == 1:
+            return sorted_chunks[0]
+        else:
+            mid = len(sorted_chunks) // 2
+            left = self.merge(sorted_chunks[:mid])
+            right = self.merge(sorted_chunks[mid:])
+            return self.merge_two_lists(left, right)
 
-        while left_index < len(left) and right_index < len(right):
-            if left[left_index] <= right[right_index]:
-                merged.append(left[left_index])
-                left_index += 1
+
+    def merge_two_lists(self, left, right):
+        result = []
+        i = j = 0
+        while i < len(left) and j < len(right):
+            if left[i] < right[j]:
+                result.append(left[i])
+                i += 1
             else:
-                merged.append(right[right_index])
-                right_index += 1
-
-        merged.extend(left[left_index:])
-        merged.extend(right[right_index:])
-        return merged
-
-
-class RecursiveMergeSort(MergeSort2):
-    def sort(self) -> list:
-        if len(self.array) <= 1:
-            return self.array
-
-        mid = len(self.array) // 2
-        left_half = self.array[:mid]
-        right_half = self.array[mid:]
-
-        left_merge_sort = RecursiveMergeSort(left_half)
-        right_merge_sort = RecursiveMergeSort(right_half)
-
-        left_sorted = left_merge_sort.sort()
-        right_sorted = right_merge_sort.sort()
-        return self._merge(left_sorted, right_sorted)
-
-
-class IterativeMergeSort(MergeSort2):
-    def sort(self) -> list:
-        if len(self.array) <= 1:
-            return self.array
-
-        queue = []
-
-        for item in self.array:
-            queue.append([item])
-
-        while len(queue) > 1:
-            first = queue.pop(0)
-            second = queue.pop(0)
-            merged = self._merge(first, second)
-            queue.append(merged)
-        return queue[0]
-    
-
-class MergeSort4(MergeSort2):
-    def sort(self) -> list:
-        if len(self.array) <= 1:
-            return self.array
-
-        queue = []
-
-        for item in self.array:
-            queue.append([item])
-
-        while len(queue) > 1:
-            first = queue.pop(0)
-            second = queue.pop(0)
-            merged = self._merge(first, second)
-            queue.append(merged)
-        return queue[0]
+                result.append(right[j])
+                j += 1
+        result += left[i:]
+        result += right[j:]
+        return result

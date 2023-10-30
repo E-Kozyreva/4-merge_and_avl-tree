@@ -42,24 +42,14 @@ class Buttons:
         return avl_tree
     
     
-    def enter_array_button():
-        enter_array = QPushButton("Enter array")
-        enter_array = Design.black_button(enter_array)
-        return enter_array
-    
-    
     def random_array_button():
         random_array = QPushButton("Random array")
         random_array = Design.black_button(random_array)
         return random_array
     
 
-    def randon_array_button_txt(len_garray: int, time: list, text: list):
-        if len(time) == 2 and len(text) == 2:
-            text_button =  f"Length array: {len_garray}\n{text[0]} {round(time[0], 4)}s\n{text[1]} {round(time[1], 4)}s"
-        elif len(time) == 1 and len(text) == 1:
-            text_button = f"Length array: {len_garray}\n{text[0]} {round(time[0], 4)}s"
-        
+    def randon_array_button_txt(len_garray: int, time: float, text: str):
+        text_button = f"Length array: {len_garray}\n{text} {round(time, 4)}s"
         txt_button = QPushButton(f"{text_button}")
         txt_button = Design.array_widget_txt(txt_button)
         return txt_button

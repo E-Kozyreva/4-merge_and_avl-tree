@@ -8,7 +8,7 @@ from app_design.buttons_design import Design
 from app_design.showhide_buttons import ShowButtons, HideButtons
 
 import database.get_data as data
-import algorithms.merge_algorithms as merge_algorithms
+import algorithms.merge_algorithms as merge
 import algorithms.tree_algorithm as tree
 
 
@@ -89,11 +89,6 @@ class MainWindow(QMainWindow, Buttons):
 
     def t_way_clicked(self):
         self.index = 2
-        
-        # button enter array
-        self.enter_array_button = Buttons.enter_array_button()
-        self.button_layout.addWidget(self.enter_array_button)
-        self.enter_array_button.clicked.connect(self.enter_array_clicked)
 
         # button random array
         self.random_array_button = Buttons.random_array_button()
@@ -112,16 +107,11 @@ class MainWindow(QMainWindow, Buttons):
         
         self.name_app.setText("2-way merge sort")
         HideButtons.tfe_way(self.t_way_button, self.f_way_button, self.e_way_button, self.back_button)
-        ShowButtons.tfe_way(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_t)
+        ShowButtons.tfe_way(self.random_array_button, self.add_array_from_file_button, self.back_button_t)
 
 
     def f_way_clicked(self):
         self.index = 3
-        
-        # button enter array
-        self.enter_array_button = Buttons.enter_array_button()
-        self.button_layout.addWidget(self.enter_array_button)
-        self.enter_array_button.clicked.connect(self.enter_array_clicked)
 
         # button random array
         self.random_array_button = Buttons.random_array_button()
@@ -140,16 +130,11 @@ class MainWindow(QMainWindow, Buttons):
         
         self.name_app.setText("4-way merge sort")
         HideButtons.tfe_way(self.t_way_button, self.f_way_button, self.e_way_button, self.back_button)
-        ShowButtons.tfe_way(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_f)
+        ShowButtons.tfe_way(self.random_array_button, self.add_array_from_file_button, self.back_button_f)
 
 
     def e_way_clicked(self):
         self.index = 4
-        
-        # button enter array
-        self.enter_array_button = Buttons.enter_array_button()
-        self.button_layout.addWidget(self.enter_array_button)
-        self.enter_array_button.clicked.connect(self.enter_array_clicked)
 
         # button random array
         self.random_array_button = Buttons.random_array_button()
@@ -168,7 +153,7 @@ class MainWindow(QMainWindow, Buttons):
         
         self.name_app.setText("8-way merge sort")
         HideButtons.tfe_way(self.t_way_button, self.f_way_button, self.e_way_button, self.back_button)
-        ShowButtons.tfe_way(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_e)
+        ShowButtons.tfe_way(self.random_array_button, self.add_array_from_file_button, self.back_button_e)
 
 
     def tree_sort_clicked(self):
@@ -191,12 +176,7 @@ class MainWindow(QMainWindow, Buttons):
 
     def avl_clicked(self):
         self.index = 5
-        
-        # button enter array
-        self.enter_array_button = Buttons.enter_array_button()
-        self.button_layout.addWidget(self.enter_array_button)
-        self.enter_array_button.clicked.connect(self.enter_array_clicked)
-        
+
         # button random array
         self.random_array_button = Buttons.random_array_button()
         self.button_layout.addWidget(self.random_array_button)
@@ -214,11 +194,7 @@ class MainWindow(QMainWindow, Buttons):
         
         self.name_app.setText("AVL tree sort")
         HideButtons.avl_tree(self.avl_tree_button, self.back_button)
-        ShowButtons.avl_tree(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_avl)
-    
-
-    def enter_array_clicked(self):
-        pass
+        ShowButtons.avl_tree(self.random_array_button, self.add_array_from_file_button, self.back_button_avl) 
 
 
     def random_array_clicked(self):
@@ -227,21 +203,16 @@ class MainWindow(QMainWindow, Buttons):
               
         # 2-way merge sort
         if self.index == 2:
-            recursive_sorter = merge_algorithms.RecursiveMergeSort(garray)
-            rt_start = time.time()
-            recursive_sorted = recursive_sorter.sort()
-            rt_end = time.time()
-
-            iterative_sorter = merge_algorithms.IterativeMergeSort(garray)
-            it_start = time.time()
-            iterative_sorted = iterative_sorter.sort()
-            it_end = time.time()
+            merge_sorter = merge.KMergeSort(2)
+            merge2_start = time.time()
+            merge_sorter.k_merge_sort(garray)
+            merge2_end = time.time()
 
             with open("output/random_merge2.txt", "w") as file:
-                text = ["Generated array:", "Length array:", "Time recursive:", "Time iterative:"]
-                file.write(f"""{text[0]} {garray}\n\n{text[1]} {len_garray}\n{text[2]} {rt_end - rt_start}\n{text[3]} {it_end - it_start}\n""")
+                text = ["Generated array:", "Length array:", "Time:"]
+                file.write(f"""{text[0]} {garray}\n\n{text[1]} {len_garray}\n{text[2]} {merge2_end - merge2_start}\n""")
 
-            self.array_widget = Buttons.randon_array_button_txt(len_garray, [rt_end - rt_start, it_end - it_start], ["Time recursive:", "Time iterative:"])
+            self.array_widget = Buttons.randon_array_button_txt(len_garray, merge2_end - merge2_start, "Time:")
             self.button_layout.addWidget(self.array_widget)
 
             self.index = 6
@@ -249,13 +220,50 @@ class MainWindow(QMainWindow, Buttons):
             self.button_layout.addWidget(self.back_button_random)
             self.back_button_random.clicked.connect(self.back_clicked)
 
-            HideButtons.generate_array(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_t)
+            HideButtons.generate_array(self.random_array_button, self.add_array_from_file_button, self.back_button_t)
             ShowButtons.generate_array(self.back_button_random)
-
+        # 4-way merge sort
         elif self.index == 3:
-            pass
+            merge_sorter = merge.KMergeSort(4)
+            merge4_start = time.time()
+            merge_sorter.k_merge_sort(garray)
+            merge4_end = time.time()
+
+            with open("output/random_merge4.txt", "w") as file:
+                text = ["Generated array:", "Length array:", "Time:"]
+                file.write(f"""{text[0]} {garray}\n\n{text[1]} {len_garray}\n{text[2]} {merge4_end - merge4_start}\n""")
+
+            self.array_widget = Buttons.randon_array_button_txt(len_garray, merge4_end - merge4_start, "Time:")
+            self.button_layout.addWidget(self.array_widget)
+
+            self.index = 7
+            self.back_button_random = Buttons.back_button()
+            self.button_layout.addWidget(self.back_button_random)
+            self.back_button_random.clicked.connect(self.back_clicked)
+
+            HideButtons.generate_array(self.random_array_button, self.add_array_from_file_button, self.back_button_f)
+            ShowButtons.generate_array(self.back_button_random)
+        # 8-way merge sort
         elif self.index == 4:
-            pass
+            merge_sorter = merge.KMergeSort(8)
+            merge8_start = time.time()
+            merge_sorter.k_merge_sort(garray)
+            merge8_end = time.time()
+
+            with open("output/random_merge8.txt", "w") as file:
+                text = ["Generated array:", "Length array:", "Time:"]
+                file.write(f"""{text[0]} {garray}\n\n{text[1]} {len_garray}\n{text[2]} {merge8_end - merge8_start}\n""")
+
+            self.array_widget = Buttons.randon_array_button_txt(len_garray, merge8_end - merge8_start, "Time:")
+            self.button_layout.addWidget(self.array_widget)
+
+            self.index = 8
+            self.back_button_random = Buttons.back_button()
+            self.button_layout.addWidget(self.back_button_random)
+            self.back_button_random.clicked.connect(self.back_clicked)
+
+            HideButtons.generate_array(self.random_array_button, self.add_array_from_file_button, self.back_button_e)
+            ShowButtons.generate_array(self.back_button_random)
         # AVL tree sort
         elif self.index == 5: 
             sarray = [n for n in garray]
@@ -267,7 +275,7 @@ class MainWindow(QMainWindow, Buttons):
                 text = ["Generated array:", "Length array:", "Time:"]
                 file.write(f"""{text[0]} {garray}\n\n{text[1]} {len_garray}\n{text[2]} {avl_end - avl_start}\n""")
 
-            self.array_widget = Buttons.randon_array_button_txt(len_garray, [avl_end - avl_start], ["Time:"])
+            self.array_widget = Buttons.randon_array_button_txt(len_garray, avl_end - avl_start, "Time:")
             self.button_layout.addWidget(self.array_widget)
 
             self.index = 9
@@ -275,12 +283,106 @@ class MainWindow(QMainWindow, Buttons):
             self.button_layout.addWidget(self.back_button_random)
             self.back_button_random.clicked.connect(self.back_clicked)
 
-            HideButtons.generate_array(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_avl)
+            HideButtons.generate_array(self.random_array_button, self.add_array_from_file_button, self.back_button_avl)
             ShowButtons.generate_array(self.back_button_random)
             
 
     def add_array_from_file_clicked(self):
-        pass
+        filename = QFileDialog.getOpenFileName(self,'Open File')
+        try:
+            with open(filename[0], "r") as file:
+                array = file.read().split()
+                array = [int(n) for n in array]
+                len_array = len(array)
+        
+            # 2-way merge sort
+            if self.index == 2:
+                merge_sorter = merge.KMergeSort(2)
+                merge2_start = time.time()
+                merge_sorter.k_merge_sort(array)
+                merge2_end = time.time()
+
+                with open("output/file_merge2.txt", "w") as file:
+                    text = ["Array:", "Length array:", "Time:"]
+                    file.write(f"""{text[0]} {array}\n\n{text[1]} {len_array}\n{text[2]} {merge2_end - merge2_start}\n""")
+
+                self.array_widget = Buttons.randon_array_button_txt(len_array, merge2_end - merge2_start, "Time:")
+                self.button_layout.addWidget(self.array_widget)
+
+                self.index = 6
+                self.back_button_random = Buttons.back_button()
+                self.button_layout.addWidget(self.back_button_random)
+                self.back_button_random.clicked.connect(self.back_clicked)
+
+                HideButtons.generate_array(self.random_array_button, self.add_array_from_file_button, self.back_button_t)
+                ShowButtons.generate_array(self.back_button_random)
+
+            # 4-way merge sort
+            elif self.index == 3:
+                merge_sorter = merge.KMergeSort(4)
+                merge4_start = time.time()
+                merge_sorter.k_merge_sort(array)
+                merge4_end = time.time()
+
+                with open("output/file_merge4.txt", "w") as file:
+                    text = ["Array:", "Length array:", "Time:"]
+                    file.write(f"""{text[0]} {array}\n\n{text[1]} {len_array}\n{text[2]} {merge4_end - merge4_start}\n""")
+
+                self.array_widget = Buttons.randon_array_button_txt(len_array, merge4_end - merge4_start, "Time:")
+                self.button_layout.addWidget(self.array_widget)
+
+                self.index = 7
+                self.back_button_random = Buttons.back_button()
+                self.button_layout.addWidget(self.back_button_random)
+                self.back_button_random.clicked.connect(self.back_clicked)
+
+                HideButtons.generate_array(self.random_array_button, self.add_array_from_file_button, self.back_button_f)
+                ShowButtons.generate_array(self.back_button_random)
+            # 8-way merge sort
+            elif self.index == 4:
+                merge_sorter = merge.KMergeSort(8)
+                merge8_start = time.time()
+                merge_sorter.k_merge_sort(array)
+                merge8_end = time.time()
+
+                with open("output/file_merge8.txt", "w") as file:
+                    text = ["Array:", "Length array:", "Time:"]
+                    file.write(f"""{text[0]} {array}\n\n{text[1]} {len_array}\n{text[2]} {merge8_end - merge8_start}\n""")
+
+                self.array_widget = Buttons.randon_array_button_txt(len_array, merge8_end - merge8_start, "Time:")
+                self.button_layout.addWidget(self.array_widget)
+
+                self.index = 8
+                self.back_button_random = Buttons.back_button()
+                self.button_layout.addWidget(self.back_button_random)
+                self.back_button_random.clicked.connect(self.back_clicked)
+
+                HideButtons.generate_array(self.random_array_button, self.add_array_from_file_button, self.back_button_e)
+                ShowButtons.generate_array(self.back_button_random)
+            # AVL tree sort
+            elif self.index == 5:
+                sarray = [n for n in array]
+                avl_start = time.time()
+                tree.tree_sort(sarray)
+                avl_end = time.time()
+
+                with open("output/file_avl.txt", "w") as file:
+                    text = ["Array:", "Length array:", "Time:"]
+                    file.write(f"""{text[0]} {array}\n\n{text[1]} {len_array}\n{text[2]} {avl_end - avl_start}\n""")
+
+                self.array_widget = Buttons.randon_array_button_txt(len_array, avl_end - avl_start, "Time:")
+                self.button_layout.addWidget(self.array_widget)
+
+                self.index = 9
+                self.back_button_random = Buttons.back_button()
+                self.button_layout.addWidget(self.back_button_random)
+                self.back_button_random.clicked.connect(self.back_clicked)
+
+                HideButtons.generate_array(self.random_array_button, self.add_array_from_file_button, self.back_button_avl)
+                ShowButtons.generate_array(self.back_button_random)
+        except:
+            self.close()
+            print("You didn't choose a file, app closed :(")
 
 
     def back_clicked(self):
@@ -299,40 +401,47 @@ class MainWindow(QMainWindow, Buttons):
             self.index = 0
             self.name_app.setText("Merge sort")
             ShowButtons.tfe_way_back(self.t_way_button, self.f_way_button, self.e_way_button, self.back_button)
-            HideButtons.tfe_way_back(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_t)
+            HideButtons.tfe_way_back(self.random_array_button, self.add_array_from_file_button, self.back_button_t)
         # 4-way merge sort
         elif self.index == 3: 
             self.index = 0
             self.name_app.setText("Merge sort")
             ShowButtons.tfe_way_back(self.t_way_button, self.f_way_button, self.e_way_button, self.back_button)
-            HideButtons.tfe_way_back(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_f)
+            HideButtons.tfe_way_back(self.random_array_button, self.add_array_from_file_button, self.back_button_f)
         # 8-way merge sort
         elif self.index == 4: 
             self.index = 0
             self.name_app.setText("Merge sort")
             ShowButtons.tfe_way_back(self.t_way_button, self.f_way_button, self.e_way_button, self.back_button)
-            HideButtons.tfe_way_back(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_e)
+            HideButtons.tfe_way_back( self.random_array_button, self.add_array_from_file_button, self.back_button_e)
         # AVL tree sort
         elif self.index == 5: 
             self.index = 1
             self.name_app.setText("Tree sort")
             ShowButtons.avl_tree_back(self.avl_tree_button, self.back_button)
-            HideButtons.avl_tree_back(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_avl)
+            HideButtons.avl_tree_back(self.random_array_button, self.add_array_from_file_button, self.back_button_avl)
         # back from 2-way merge sort
         elif self.index == 6: 
             self.index = 2
             self.name_app.setText("2-way merge sort")
-            ShowButtons.generate_array_back(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_t)
+            ShowButtons.generate_array_back(self.random_array_button, self.add_array_from_file_button, self.back_button_t)
             HideButtons.generate_array_back(self.back_button_random, self.array_widget)
+        # back from 4-way merge sort
         elif self.index == 7:
-            pass
+            self.index = 3
+            self.name_app.setText("4-way merge sort")
+            ShowButtons.generate_array_back(self.random_array_button, self.add_array_from_file_button, self.back_button_f)
+            HideButtons.generate_array_back(self.back_button_random, self.array_widget)
         elif self.index == 8:
-            pass
+            self.index = 4
+            self.name_app.setText("8-way merge sort")
+            ShowButtons.generate_array_back(self.random_array_button, self.add_array_from_file_button, self.back_button_e)
+            HideButtons.generate_array_back(self.back_button_random, self.array_widget)
         # back from AVL tree sort
         elif self.index == 9: 
             self.index = 5
             self.name_app.setText("AVL tree sort")
-            ShowButtons.generate_array_back(self.enter_array_button, self.random_array_button, self.add_array_from_file_button, self.back_button_avl)
+            ShowButtons.generate_array_back(self.random_array_button, self.add_array_from_file_button, self.back_button_avl)
             HideButtons.generate_array_back(self.back_button_random, self.array_widget)    
 
 
