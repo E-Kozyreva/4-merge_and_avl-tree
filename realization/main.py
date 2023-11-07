@@ -198,7 +198,7 @@ class MainWindow(QMainWindow, Buttons):
 
 
     def random_array_clicked(self):
-        garray = data.GenerateData(10000).generate()
+        garray = data.GenerateData(100_000).generate()
         len_garray = len(garray)
               
         # 2-way merge sort
