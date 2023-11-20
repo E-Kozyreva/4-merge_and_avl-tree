@@ -2,15 +2,28 @@
 
 <details><summary><h2>Составляющие лаб. работы:</h2></summary>
 <ul>
-  <li>Реализация 2-х программ;</li>
+  <li>Реализация 2-х программ (алгоритмы и эксперименты).</li>
   <li>Сравнение и анализ двух предложенных алгоритмов, решающих одну и ту же задачу / проблему. </li>
 </ul>
 </details>
 
 <details><summary><h2>Реализация:</h2></summary>
   <ul>
-    <li><strong>Первая программа:</strong> читаются с файла входные данные, на выходе выдаются два файла с решением соответствующего алгоритма;</li>
-    <li><strong>Вторая программа:</strong> для проведения экспериментов. Программа должна соответствовать второму разделу в задании лабораторной работы;</li>
-    <li><strong>Отчет:</strong> описание алгоритмов, обоснование оценок сложности, описание программ, проведенные эксперименты, сравнение алгоритмов, выводы. Отчет должен быть оформлен с титульным листом и не на скорую руку.</li>
+    <li><strong>algorithms_base:</strong> реализация алгоритмов в Jupyter Notebook;</li>
+    <li><strong>experiments</strong><br>
+      <code>algorithms:</code> алгоритмы сортировок;<br>
+      <code>get_data:</code> генерация синтетических данных;<br>
+      <code>output:</code> итоги проведенных экспериментов;<br>
+      <img src="experiments/output/graphics/merge2.png"/>
+      <img src="experiments/output/graphics/merge4.png"/>
+      <img src="experiments/output/graphics/merge8.png"/>
+</li>
+    <li><strong>realization</strong><br>
+      <code>algorithms:</code> реализация алгоритмов сортировок;<br>
+      <code>app_design:</code> дизайн приложения;<br>
+      <code>database:</code> данные для прогона алгоритмов (генерация синтетических данных и файлы);<br>
+      <code>output:</code> данные после отработки алгоритмов (массивы и время);<br>
+      <code>main.py:</code> запуск приложения;</li>
+    <li><strong>requirements.txt:</strong> нужные утилиты для запуска приложения. (лучше использовать python 3.10 и venv)</strong></li>
   </ul>
 </details>
