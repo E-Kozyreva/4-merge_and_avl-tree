@@ -161,7 +161,7 @@ class Experiment2(object):
     def __init__(self):
         self.start: int = 1
         self.end: int = 100
-        self.step: int = 10000
+        self.step: int = 1
         self.count = 10**6
         self.exp: int = 2
 
