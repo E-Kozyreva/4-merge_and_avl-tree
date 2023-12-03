@@ -14,16 +14,16 @@
       <code>algorithms:</code> алгоритмы сортировок;<br>
       <code>get_data:</code> генерация синтетических данных;<br>
       <code>output:</code> итоги проведенных экспериментов;<br>
-      <img src="experiments/output/graphics/merge2.png"/>
-      <img src="experiments/output/graphics/merge4.png"/>
-      <img src="experiments/output/graphics/merge8.png"/>
+      <img src="https://github.com/E-Kozyreva/sorting_algorithms_app/assets/83861300/a5ed5b57-0ad3-4540-8c72-5a40a1256aef"/>
+      <img src="https://github.com/E-Kozyreva/sorting_algorithms_app/assets/83861300/fa43781e-9d1a-4194-8530-21e0cda991eb"/>
 </li>
-    <li><strong>realization</strong><br>
+    <li><strong>app</strong><br>
       <code>algorithms:</code> реализация алгоритмов сортировок;<br>
       <code>app_design:</code> дизайн приложения;<br>
       <code>database:</code> данные для прогона алгоритмов (генерация синтетических данных и файлы);<br>
       <code>output:</code> данные после отработки алгоритмов (массивы и время);<br>
       <code>main.py:</code> запуск приложения;</li>
-    <li><strong>requirements.txt:</strong> нужные утилиты для запуска приложения. (лучше использовать python 3.10 и venv)</strong></li>
+    <li><strong>requirements.txt:</strong> нужные утилиты для запуска приложения (лучше использовать python 3.10 и venv).</strong></li>
   </ul>
 </details>
+
