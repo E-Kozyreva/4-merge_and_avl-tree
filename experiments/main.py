@@ -3,153 +3,199 @@ import matplotlib.pyplot as plt
 from multiprocessing import Process
 
 
-import algorithms.merge_algorithm as merge_sorts
-import algorithms.tree_algorithm as tree_sort
+import algorithms.kmerge as merge
+import algorithms.avl_tree as avl
 from get_data.generate_data import GenerateData
 
 
-class ExperimentMerge:
-    def __init__(self, start_count: int, end_count: int, step: int):
-        self.array = []
-        self.start_count = start_count
-        self.end_count = end_count
+class ExperimentMerge(object):
+
+    def __init__(self, start: int, end: int, step: int, count: int, exp: int):
+        self.start = start
+        self.end = end
         self.step = step
+        self.count = count
+        self.exp = exp
+        self.array = []
 
 
-    def experiment2(self):
-        wfile = open("output/time/merge2.txt", "w")
-        wfile.write("")
-        merge2_sorter = merge_sorts.KMergeSort(2)
-        wfile = open("output/time/merge2.txt", "a")
+    def rand_experiment(self) -> None:
+        f_rm = open(f"output/time/kmerge/rand_exp{self.exp}.txt", "w")
+        merge4_sorter = merge.KMergeSort(4)
 
-        for i in range(self.start_count, self.end_count, self.step):
-            self.array = GenerateData(i).generate()
-            merge2_start = time.time()
-            merge2_sorter.k_merge_sort(self.array)
-            merge2_end = time.time()
-            wfile.write(f"{merge2_end - merge2_start}\n")
-            print(f"Merge 2: {i}")
-        wfile.close()
-
-        with open("output/time/merge2.txt", "r") as wfile:
-            data = wfile.readlines()
-            data = [float(n) for n in data]
-            plt.plot(data)
-            plt.title("Merge sort 2")
-            plt.xlabel(f"Start count: {self.start_count} End count: {self.end_count} Step: {self.step}")
-            plt.ylabel("Time")
-            plt.savefig("output/graphics/merge2.png")
-            plt.clf()
-            data.clear()
-
-
-    def experiment4(self):
-        wfile = open("output/time/merge4.txt", "w")
-        wfile.write("")
-        merge4_sorter = merge_sorts.KMergeSort(4)
-        wfile = open("output/time/merge4.txt", "a")
-
-        for i in range(self.start_count, self.end_count, self.step):
-            self.array = GenerateData(i).generate()
+        for i in range(1, self.count // self.step + 1):
+            self.arr1 = GenerateData(self.start, self.end, self.count).generate()[:self.step * i]
+            print(f"Random merge exp{self.exp}: {i}")
             merge4_start = time.time()
-            merge4_sorter.k_merge_sort(self.array)
+            merge4_sorter.k_merge_sort(self.arr1)
             merge4_end = time.time()
-            wfile.write(f"{merge4_end - merge4_start}\n")
-            print(f"Merge 4: {i}")
-        wfile.close()
+            f_rm.write(f"{merge4_end - merge4_start}\n")
+        f_rm.close()
+        
 
-        with open("output/time/merge4.txt", "r") as wfile:
-            data = wfile.readlines()
-            data = [float(n) for n in data]
-            plt.plot(data)
-            plt.title("Merge sort 4")
-            plt.xlabel(f"Start count: {self.start_count} End count: {self.end_count} Step: {self.step}")
-            plt.ylabel("Time")
-            plt.savefig("output/graphics/merge4.png")
-            plt.clf()
-            data.clear()
+    def incr_experiment(self) -> None:
+        f_im = open(f"output/time/kmerge/inc_exp{self.exp}.txt", "w")
+        merge4_sorter = merge.KMergeSort(4)
 
+        for i in range(1, self.count // self.step + 1):
+            self.arr2 = GenerateData(self.start, self.end, self.count).generate()[:self.step * i]
+            print(f"Increasing merge exp{self.exp}: {i}")
+            merge4_start = time.time()
+            merge4_sorter.k_merge_sort(sorted(self.arr2))
+            merge4_end = time.time()
+            f_im.write(f"{merge4_end - merge4_start}\n")
+        f_im.close()
+            
 
-    def experiment8(self):
-        wfile = open("output/time/merge8.txt", "w")
-        wfile.write("")
-        merge8_sorter = merge_sorts.KMergeSort(8)
-        wfile = open("output/time/merge8.txt", "a")
+    def decr_experiment(self) -> None:
+        f_dm = open(f"output/time/kmerge/dec_exp{self.exp}.txt", "w")
+        merge4_sorter = merge.KMergeSort(4)
 
-        for i in range(self.start_count, self.end_count, self.step):
-            self.array = GenerateData(i).generate()
-            merge8_start = time.time()
-            merge8_sorter.k_merge_sort(self.array)
-            merge8_end = time.time()
-            wfile.write(f"{merge8_end - merge8_start}\n")
-            print(f"Merge 8: {i}")
-        wfile.close()
-
-        with open("output/time/merge8.txt", "r") as wfile:
-            data = wfile.readlines()
-            data = [float(n) for n in data]
-            plt.plot(data)
-            plt.title("Merge sort 8")
-            plt.xlabel(f"Start count: {self.start_count} End count: {self.end_count} Step: {self.step}")
-            plt.ylabel("Time")
-            plt.savefig("output/graphics/merge8.png")
-            plt.clf()
-            data.clear()
+        for i in range(1, self.count // self.step + 1):
+            self.arr3 = GenerateData(self.start, self.end, self.count).generate()[:self.step * i]
+            print(f"Decreasing merge exp{self.exp}: {i}")
+            merge4_start = time.time()
+            merge4_sorter.k_merge_sort(sorted(self.arr3)[::-1])
+            merge4_end = time.time()
+            f_dm.write(f"{merge4_end - merge4_start}\n")
+        f_dm.close()
 
 
-class ExperimentTree:
-    def __init__(self, start_count: int, end_count: int, step: int):
-        self.array = []
-        self.start_count = start_count
-        self.end_count = end_count
+class ExperimentTree(object):
+
+    def __init__(self, start: int, end: int, step: int, count: int, exp: int):
+        self.start = start
+        self.end = end
         self.step = step
+        self.count = count
+        self.exp = exp
+        self.arr1, self.arr2, self.arr3 = [], [], []        
 
 
-    def experiment(self):
-        wfile = open("output/time/tree.txt", "w")
-        wfile.write("")
-        wfile = open("output/time/tree.txt", "a")
+    def rand_experiment(self) -> None:
+        f_rt = open(f"output/time/avl_tree/rand_exp{self.exp}.txt", "w")
 
-        for i in range(self.start_count, self.end_count, self.step):
-            self.array = GenerateData(i).generate()
+        for i in range(1, self.count // self.step + 1):
+            self.arr1 = GenerateData(self.start, self.end, self.count).generate()[:self.step * i]
+            tree = avl.AVLTree()
+            for elem in self.arr1:
+                tree.insert(elem)
+            print(f"Random tree exp{self.exp}: {i}")
             tree_start = time.time()
-            tree_sort.tree_sort(self.array)
+            tree.inorder_traverse()
             tree_end = time.time()
-            wfile.write(f"{tree_end - tree_start}\n")
-            print(f"Tree: {i}")
-        wfile.close()
+            f_rt.write(f"{tree_end - tree_start}\n")
+        f_rt.close()
 
-        with open("output/time/tree.txt", "r") as wfile:
-            data = wfile.readlines()
-            data = [float(n) for n in data]
-            plt.plot(data)
-            plt.title("Tree sort")
-            plt.xlabel(f"Start count: {self.start_count} End count: {self.end_count} Step: {self.step}")
-            plt.ylabel("Time")
-            plt.savefig("output/graphics/tree.png")
-            plt.clf()
-            data.clear()
     
+    def incr_experiment(self) -> None:
+        f_it = open(f"output/time/avl_tree/inc_exp{self.exp}.txt", "w")
+
+        for i in range(1, self.count // self.step + 1):
+            self.arr2 = GenerateData(self.start, self.end, self.count).generate()[:self.step * i]
+            tree = avl.AVLTree()
+            for elem in sorted(self.arr2):
+                tree.insert(elem)
+            print(f"Increasing tree exp{self.exp}: {i}")
+            tree_start = time.time()
+            tree.inorder_traverse()
+            tree_end = time.time() 
+            f_it.write(f"{tree_end - tree_start}\n")
+        f_it.close()
+
+    
+    def decr_experiment(self) -> None:
+        f_dt = open(f"output/time/avl_tree/dec_exp{self.exp}.txt", "w")
+
+        for i in range(1, self.count // self.step + 1):
+            self.arr3 = GenerateData(self.start, self.end, self.count).generate()[:self.step * i]
+            tree = avl.AVLTree()
+            for elem in sorted(self.arr3)[::-1]:
+                tree.insert(elem)
+            print(f"Decreasing tree exp{self.exp}: {i}")
+            tree_start = time.time()
+            tree.inorder_traverse()
+            tree_end = time.time()
+            f_dt.write(f"{tree_end - tree_start}\n")
+        f_dt.close()
+
+
+class Experiment1(object):
+
+    def __init__(self):
+        self.start: int = 1
+        self.end: int = 10**9
+        self.step: int = 10**4
+        self.count = 10**6
+        self.exp: int = 1
+
+    
+    def kmerge_experiment(self) -> None:
+        e1_kmerge = ExperimentMerge(self.start, self.end, self.step, self.count, self.exp)
+        processes = [Process(target=e1_kmerge.rand_experiment, daemon=True), 
+                     Process(target=e1_kmerge.incr_experiment, daemon=True),
+                     Process(target=e1_kmerge.decr_experiment, daemon=True)]
+        
+        for process in processes:
+            process.start()
+        
+        for process in processes:
+            process.join()
+
+
+    def  tree_experiment(self) -> None:
+        e1_tree = ExperimentTree(self.start, self.end, self.step, self.count, self.exp)
+        processes = [Process(target=e1_tree.rand_experiment, daemon=True), 
+                     Process(target=e1_tree.incr_experiment, daemon=True),
+                     Process(target=e1_tree.decr_experiment, daemon=True)]
+        
+        for process in processes:
+            process.start()
+        
+        for process in processes:
+            process.join()
+
+
+class Experiment2(object):
+
+    def __init__(self):
+        self.start: int = 1
+        self.end: int = 100
+        self.step: int = 10000
+        self.count = 10**6
+        self.exp: int = 2
+
+    
+    def kmerge_experiment(self) -> None:
+        e2_kmerge = ExperimentMerge(self.start, self.end, self.step, self.count, self.exp)
+        processes = [Process(target=e2_kmerge.rand_experiment, daemon=True), 
+                     Process(target=e2_kmerge.incr_experiment, daemon=True),
+                     Process(target=e2_kmerge.decr_experiment, daemon=True)]
+        
+        for process in processes:
+            process.start()
+        
+        for process in processes:
+            process.join()
+
+    
+    def tree_experiment(self) -> None:
+        e2_tree = ExperimentTree(self.start, self.end, self.step, self.count, self.exp)
+
+        processes = [Process(target=e2_tree.rand_experiment, daemon=True), 
+                     Process(target=e2_tree.incr_experiment, daemon=True),
+                     Process(target=e2_tree.decr_experiment, daemon=True)]
+        
+        for process in processes:
+            process.start()
+        
+        for process in processes:
+            process.join()
+
 
 if __name__ == "__main__":
-    start_count = 0
-    end_count = 1_000_000
-    step = 1_000
+    Experiment1().kmerge_experiment()
+    Experiment2().kmerge_experiment()
 
-    e_merge = ExperimentMerge(start_count, end_count, step)
-    e_tree = ExperimentTree(start_count, end_count, step)
-
-    p1 = Process(target=e_merge.experiment2, daemon=True)
-    p2 = Process(target=e_merge.experiment4, daemon=True)
-    p3 = Process(target=e_merge.experiment8, daemon=True)
-    p4 = Process(target=e_tree.experiment, daemon=True)
-
-    p1.start()
-    p2.start()
-    p3.start()
-    p4.start()
-    
-    p1.join()
-    p2.join()
-    p3.join()
-    p4.join()
+    Experiment1().tree_experiment()
+    Experiment2().tree_experiment()

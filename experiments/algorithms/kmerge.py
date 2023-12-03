@@ -1,20 +1,21 @@
-class KMergeSort:
+class KMergeSort(object):
+
     def __init__(self, k):
         self.k = k
 
 
-    def k_merge_sort(self, arr, k=None):
+    def k_merge_sort(self, arr: list) -> list:
         if len(arr) <= 1:
             return arr
         else:
             n = len(arr)
             chunk_size = n // self.k if n // self.k > 0 else 1
             chunks = [arr[i:i+chunk_size] for i in range(0, n, chunk_size)]
-            sorted_chunks = [self.k_merge_sort(chunk, self.k) for chunk in chunks]
+            sorted_chunks = [self.k_merge_sort(chunk) for chunk in chunks]
             return self.merge(sorted_chunks)
 
 
-    def merge(self, sorted_chunks):
+    def merge(self, sorted_chunks: list) -> list:
         if len(sorted_chunks) == 1:
             return sorted_chunks[0]
         else:
@@ -24,7 +25,7 @@ class KMergeSort:
             return self.merge_two_lists(left, right)
 
 
-    def merge_two_lists(self, left, right):
+    def merge_two_lists(self, left: list, right: list) -> list:
         result = []
         i = j = 0
         while i < len(left) and j < len(right):
